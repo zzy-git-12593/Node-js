@@ -1,0 +1,58 @@
+<table class="layui-table">
+  <colgroup>
+    <col width="150">
+    <col width="200">
+    <col>
+  </colgroup>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>分类名</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for(var i=0;i< data.length; i++) {%>
+    <tr>
+      <td><%= data[i].id %></td>
+      <td><%= data[i].typeName %></td>
+      <td>
+        <a href="{{host}}/admin?go=typeNameEdit&id=<%=data[i].id %>">修改</a> |
+        <!-- 弹出层 -->
+        <a class="del" id=<%= data[i].id %>>删除</a>
+
+      </td>
+    </tr>
+    <% } %>
+  </tbody>
+</table>
+
+<!-- <script src="../layui/layui.js"></script> -->
+
+
+<script>
+  //JavaScript代码区域
+
+  layui.use(['layer', 'jquery'], function () {
+    var layer = layui.layer;
+    var $ = layui.jquery;
+
+    $('.del').click(function () {
+
+      // 获取id
+      var id = $(this).attr('id')
+
+      //询问框
+      layer.confirm('确定删除当前数据吗？', {
+
+        btn: ['确定', '取消'] //按钮
+
+      }, function () {
+
+        location.href = `{{host}}/admin?go=typeNameList&id=${id}`;
+
+      });
+
+    })
+  }); 
+</script>

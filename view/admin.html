@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>苏宁仿站商品后台系统</title>
+  <link rel="stylesheet" href="../layui/css/layui.css">
+</head>
+<script src="../layui/layui.js"></script>
+
+<script>
+  //JavaScript代码区域
+  layui.use('element', function () {
+    var element = layui.element;
+  });
+
+</script>
+
+<body class="layui-layout-body">
+  <div class="layui-layout layui-layout-admin">
+    {{include './head.html'}}
+    <div class="layui-side layui-bg-black">
+      <div class="layui-side-scroll">
+        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+        {{include './left.html'}}
+      </div>
+    </div>
+
+    <div class="layui-body">
+      <!-- 内容主体区域 -->
+      {{if go == 'welcome'}}
+      <div style="padding: 15px;">welcome</div>
+      <!-- 一级分类新增 -->
+      {{else if go =='typeNameAdd'}}
+      {{include './typeNameAdd.html'}}
+
+      <!-- 一级分类列表 -->
+      {{else if go =='typeNameList'}}
+      {{include './typeNameList.html'}}
+
+      <!-- 一级分类列表修改 -->
+      {{else if go =='typeNameEdit'}}
+      {{include './typeNameEdit.html'}}
+
+      <!-- 二级分类新增 -->
+      {{else if go =='typeContentAdd'}}
+      {{include './second/typeContentAdd.html'}}
+
+      {{/if}}
+    </div>
+
+    <div class="layui-footer">
+      <!-- 底部固定区域 -->
+      © layui.com - 底部固定区域
+    </div>
+  </div>
+
+</body>
+
+</html>

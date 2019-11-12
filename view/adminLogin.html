@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>苏宁后台系统</title>
+    <link rel="stylesheet" type="text/css" href="../styles/base.css" />
+    <link rel="stylesheet" type="text/css" href="../styles/doctorpage.css" />
+    <link rel="stylesheet" type="text/css" href="../styles/font-awesome.min.css" />
+    <script src="../scripts/jquery-1.10.2.min.js"></script>
+</head>
+
+<body style="background: url('../images/bg.jpg') no-repeat; height: 100%; background-size:150%;background-position: -500px 100px ;">
+    <div class="wrapx">
+
+        <img src="../images/logo.png" class="logo" />
+        <div class="wrap-body">
+            <div class="loginpanle" style="position: absolute; right: 200px;top: 200px;">
+                <h2 class="yahei">管理员登陆</h2>
+                <form id="adminlogin">
+                    <p class="resinfo"></p>
+
+                    <p class="user"><span><i class="fa fa-user fa-2x" aria-hidden="true"></i></span><input type="text"
+                            name="uname" id="uname" class="uname yahei" placeholder="请在此处输入用户名"></p>
+
+                    <p class="pwd"><span><i class="fa fa-lock fa-2x" aria-hidden="true"></i></span><input
+                            type="password" name="upwd" id="upwd" class="upwd yahei" placeholder="请输入登陆密码"></p>
+
+                    <p class="remember yahei"><a href="#">忘记密码</a><input type="checkbox" name="remember" value="1">
+                        记住登陆账号</p>
+
+                    <p class="submit"><input type="submit" name="mysubmit" value="登陆" class="yahei" id="submit" /></p>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="cndns-banner">
+       
+        <!-- <video id="myVideo" src="" width="100%" height="100%" autoplay="autoplay" loop="loop" muted="muted"
+            class="cndns-banner-video">您的浏览器不支持 video 标签。</video> -->
+
+    </div>
+    <script>
+        $(document).ready(function () {
+
+            $(window).load(function () {
+
+                var vid = document.getElementById("myVideo")
+                vid.onplay = function (e) {
+                    $('.cndns-banner-bg').hide()
+                };
+                /*随机切换视频banner*/
+                var videoNum = Math.floor(Math.random() * 3 + 1);
+                console.log(videoNum);
+                $('.cndns-banner-video').attr('src', '//flv.cndns.com/cn/webnew/images/cndns-banner-video-1.mp4')
+
+            })
+        })
+
+        // 后台请求登录验证
+        $('#adminlogin').submit(() => {
+
+            // 用户名 密码
+            let username = $('#uname').val();
+            let pwd = $('#upwd').val();
+
+            // 验证合法
+
+            let exg = /^[a-z1-9]{4,30}$/;
+
+            if (exg.test(username) && exg.test(pwd)) {
+                // 合法后提示至空
+                $('.resinfo').html('')
+                // ajax后端验证
+                $.post('loginDo', { username, pwd }, res => {
+                    // 验证合法
+                    if (res) {
+                        // 设置3s延迟跳转字段
+                        let timer = 3;
+                        $('#submit').val('登录成功，即将跳转后台界面' + timer)
+                        // 定时器
+                        let timer1 = setInterval(() => {
+                            timer--
+                            $('#submit').val('登录成功，即将跳转后台界面' + timer)
+                        }, 1000);
+
+                        let timer2 = setTimeout(function () {
+                            // 清除计时器
+                            clearInterval(timer1)
+                            clearTimeout(timer2)
+                            location.href = '../admin';
+
+                        }, 3500)
+
+                    } else {
+
+                        $('.resinfo').html('用户名或者密码错误')
+
+                    }
+                })
+            } else {
+                $('.resinfo').html('用户名或者密码不规范')
+            }
+
+            // 阻止表单提交
+            return false
+        })
+
+    </script>
+
+    <script type="text/javascript" src="../scripts/djcommon.js"></script>
+
+</body>
+
+</html>

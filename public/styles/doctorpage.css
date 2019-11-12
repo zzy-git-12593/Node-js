@@ -1,0 +1,122 @@
+::-webkit-input-placeholder{ color: #999; }
+:-moz-placeholder{ color: #999; } 
+::-moz-placeholder{ color: #999; }
+:-ms-input-placeholder{ color: #999; }
+
+video{  
+position: fixed;  
+right: 0px;  
+bottom: 0px;  
+min-width: 100%;  
+min-height: 100%;  
+height: auto;  
+width: auto;  
+/*加滤镜*/  
+/*-webkit-filter: grayscale(100%);  
+filter:grayscale(100%);*/
+}  
+source{  
+min-width: 100%;  
+min-height: 100%;  
+height: auto;  
+width: auto;  
+}
+.wrapx {
+position: relative;
+z-index: 2;
+}
+
+img.logo {
+    position: absolute;
+    left:39px;
+    /* top: 0px; */
+    width: 200px;
+}
+
+.wrap-body {
+    /*padding-top: 160px;*/
+}
+.loginpanle {
+    width: 450px;
+    min-height: 200px;
+    margin: 0 auto;
+    background: rgba(255,255,255,.9);
+
+    border-radius: 10px; 
+    box-shadow: 4px 7px 7px rgba(208,205,205,.51);
+}
+
+.loginpanle h2 {
+    display: block;
+    text-align: center;
+    font-size: 21px;
+    padding: 30px 0;
+    border-bottom: #CCC 1px solid;
+    font-weight: normal;
+}
+.loginpanle p {
+    margin: 0px auto;
+}
+p.user,p.pwd {
+    position: relative;
+    margin-top: 20px;
+    width: 360px;
+    height: 38px;
+    border: #CCC 1px solid;
+}
+p.user {
+    margin-top: 0px;
+}
+p.user span, p.pwd span {
+    position: absolute;
+    left: 7px;
+    top: 5px;
+    width: 26px;
+    height: 28px;
+    padding-left: 2px;
+    padding-top: 2px;
+    line-height: 28px;
+    border-right: #CCC 1px solid;
+}
+p.user input, p.pwd input {
+    position: absolute;
+    left: 50px;
+    top: 6px;
+    width: 300px;
+    height: 26px;
+    border: none;
+    font-size: 15px;
+    background-color: transparent;
+}
+
+p.remember {
+    margin-top:10px;
+    height: 24px;
+    padding-left: 45px;
+    padding-right: 45px;
+}
+p.remember a {
+    float: right;
+    color: blue;
+}
+p.submit {
+    padding: 20px 0;
+    padding-bottom: 40px;
+}
+p.submit input {
+    display: block;
+    margin: 0 auto;
+    width: 360px;
+    height: 36px;
+    font-size: 14px;
+    background-color: purple;
+    color: #FFF;
+    border: none;
+    cursor: pointer;
+}
+p.resinfo {
+    text-align: center;
+    color: red;
+    height: 30px;
+    line-height: 30px;
+}
