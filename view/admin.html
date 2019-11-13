@@ -33,20 +33,27 @@
       <div style="padding: 15px;">welcome</div>
       <!-- 一级分类新增 -->
       {{else if go =='typeNameAdd'}}
-      {{include './typeNameAdd.html'}}
+      {{include './fist/typeNameAdd.html'}}
 
       <!-- 一级分类列表 -->
       {{else if go =='typeNameList'}}
-      {{include './typeNameList.html'}}
+      {{include './fist/typeNameList.html'}}
 
       <!-- 一级分类列表修改 -->
       {{else if go =='typeNameEdit'}}
-      {{include './typeNameEdit.html'}}
+      {{include './fist/typeNameEdit.html'}}
 
       <!-- 二级分类新增 -->
       {{else if go =='typeContentAdd'}}
       {{include './second/typeContentAdd.html'}}
 
+      <!-- 二级分类列表 -->
+      {{else if go =='typeContentList'}}
+      {{include './second/typeContentList.html'}}
+
+      <!-- 二级分类列表修改 -->
+      {{else if go =='typeContentNameEdit'}}
+      {{include './second/typeContentNameEdit.html'}}
       {{/if}}
     </div>
 

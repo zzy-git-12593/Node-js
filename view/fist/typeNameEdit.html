@@ -1,9 +1,21 @@
 <form class="layui-form" action="admin/typeName" style="margin-top: 50px;width: 500px;" method="POST">
 
-    <!-- 隐藏表单，提交修改后的值 -->
+    <!-- 隐藏表单，提交修改后的值 -->  
     <input type="hidden" name="go" id="go" value="typeNameEdit">
     <!-- 提交被修改的数据id -->
     <input type="hidden" name="id" id="id" value= <%= data.id %>>
+
+    <!-- 原标题 name="oldTitle" -->
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">原分类名：</label>
+        <div class="layui-input-block">
+            <input type="text" name="oldTitle" value=<%= data.typeName %> required lay-verify="required" placeholder="请输入新的标题" autocomplete="off"
+                class="layui-input" style="width: 100%;">
+        </div>
+    </div>
+
+    <!-- 新标题 name="title" -->
     <div class="layui-form-item">
         <label class="layui-form-label">分类名修改：</label>
         <div class="layui-input-block">

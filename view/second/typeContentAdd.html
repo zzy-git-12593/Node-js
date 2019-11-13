@@ -1,18 +1,21 @@
-<form class="layui-form" action="admin/typeName" style="margin-top:50px;" method="POST">
+<form class="layui-form" action="admin/typeName" style="margin-top:50px; width: 600px;" method="POST">
 
     <input type="hidden" name="go" id="go" value="typeContentAdd">
+
+    <!-- 分类名  name="typeId" -->
     <div class="layui-form-item">
-      <label class="layui-form-label">一级分类名称：</label>
+      <label class="layui-form-label" style="text-align: left;">一级分类名称：</label>
       <div class="layui-input-block">
-        <select name="typeId" lay-verify="required">
-          <option value="city"></option>
+        <select name="typeId" id="typeId" lay-verify="required">
+          <option value="">请选择所属分类</option>
           <% for(var i=0;i< data.length; i++) {%>
             <option value=<%=data[i].id%>><%=data[i].typeName%></option>
           <% } %>
         </select>
       </div>
     </div>
-
+    
+    <!-- 商品名修改   name="title" -->
     <div class="layui-form-item">
         <label class="layui-form-label">二级商品名：</label>
         <div class="layui-input-block">
@@ -20,6 +23,7 @@
         </div>
     </div>
 
+     <!-- 图片地址   name="url" -->
     <div class="layui-form-item">
       <label class="layui-form-label">商品图片</label>
       <div class="layui-input-block">

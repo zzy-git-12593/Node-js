@@ -1,0 +1,57 @@
+<form class="layui-form" action="admin/typeName" style="margin-top: 50px;width: 500px;" method="POST">
+
+    <!-- 隐藏表单，提交修改后的值  name="go"-->
+    <input type="hidden" name="go" id="go" value="typeContentNameEdit">
+
+    <!-- 提交被修改的数据id   name="id"  -->
+    <input type="hidden" name="id" id="id" value= <%= data.id %>>
+
+    <!-- 渲染修改后一级分类列表名称，用于修改当前商品所属分类  name="typeId"  -->
+    <div class="layui-form-item">
+        <label class="layui-form-label">一级分类名称：</label>
+        <div class="layui-input-block">
+          <select name="typeId" lay-verify="required">
+            <% for(var i=0;i< typeTitleData.length; i++) {%>
+              <option value=<%=typeTitleData[i].id%>><%=typeTitleData[i].typeName%></option>
+            <% } %>
+          </select>
+        </div>
+    </div>
+
+    <!-- 商品  name="title"-->
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">商品名称修改：</label>
+        <div class="layui-input-block">
+            <input type="text" name="title" value=<%= data.comName %> required lay-verify="required" placeholder="请输入新的标题" autocomplete="off"
+                class="layui-input" style="width: 100%;">
+        </div>
+    </div>
+    
+    <!-- 图片地址 name="imgUrl" -->
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">图片地址修改：</label>
+        <div class="layui-input-block">
+            <input type="text" name="imgUrl" value=<%= data.imgUrl%> required lay-verify="required" placeholder="请输入新的标题" autocomplete="off"
+                class="layui-input" style="width: 100%;">
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+   
+<script>
+    //Demo
+    layui.use('form', function(){
+      var form = layui.form;
+  
+    });
+</script>

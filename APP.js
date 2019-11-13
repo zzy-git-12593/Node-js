@@ -15,8 +15,10 @@ myDb = require('./lib/db')
 
 // 引入路由
 
-shoppingCar = require('./routes/add-shopcar')
 admin = require('./routes/admin')
+type = require('./routes/type')
+shoppingCar = require('./routes/add-shopcar')
+
 
 // 全局路径
 global.rootPath = __dirname;
@@ -90,13 +92,14 @@ router.get('/home', async (ctx) => {
 
 router.use('/admin',admin)
 
+// 分类标题获取
+
+router.use('/type',type)
+
+
 // 购物车商品
 
 router.use('/shoppingcar',shoppingCar)
-
-// 分类商品上传
-
-router.use('/typeProduct',shoppingCar)
 
 
 

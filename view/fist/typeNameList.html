@@ -17,10 +17,18 @@
       <td><%= data[i].id %></td>
       <td><%= data[i].typeName %></td>
       <td>
-        <a href="{{host}}/admin?go=typeNameEdit&id=<%=data[i].id %>">修改</a> |
-        <!-- 弹出层 -->
-        <a class="del" id=<%= data[i].id %>>删除</a>
+        <!-- 弹出层 --> 
+        <a href="{{host}}/admin?go=typeNameEdit&id=<%=data[i].id %>">
+          <button type="button" class="layui-btn layui-btn-sm layui-btn-danger">
+              <i class="layui-icon">&#xe642;</i>
+          </button>
+        </a>&nbsp;&nbsp;
 
+        <a class="del" id=<%= data[i].id %>>
+            <button type="button" class="layui-btn layui-btn-sm">
+                <i class="layui-icon">&#xe640;</i>
+            </button>
+        </a>
       </td>
     </tr>
     <% } %>

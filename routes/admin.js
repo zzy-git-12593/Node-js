@@ -36,17 +36,21 @@ router.get('/',async  (ctx) => {
     let params = ctx.query;
     let go = params.go ? params.go:'welcome'
     let data;
-
-    // 跳转一级分类数据列表 //二级分类列表获取
+    let typeTitleData;
+    // 跳转一级分类数据列表 //二级分类新增获取一级分类内容
     if (go =='typeNameList' || go == 'typeContentAdd') {
         
-        // 删除一级分类数据
+        // 删除一级分类数据 及二级分类相关所有数据
         if (params.id){
 
             let sql =`DELETE FROM typetitle WHERE id=${params.id}`;
-            await myDb.query(sql) 
+            await myDb.query(sql);
+            // 删除一级分类下所有相关二级商品数据
+            let _sql =`DELETE FROM typecontent WHERE typeId=${params.id}`;
+            await myDb.query(_sql);
                    
         } 
+        
         let sql =`SELECT * FROM typetitle`;
         let res = await myDb.query(sql)
         data = JSON.parse(JSON.stringify(res))
@@ -65,7 +69,49 @@ router.get('/',async  (ctx) => {
         }
     }
 
-    await ctx.render('admin',{ admin:ctx.session.admin, host,go,data})
+    // 二级分类商品数据获取
+    if (go == 'typeContentList') {
+       
+        // 删除二级列表数据 id存在时
+        if(params.id){
+            
+            let sql=`DELETE FROM typecontent WHERE id = ${params.id}`;
+            await myDb.query(sql)
+        }
+
+
+        let sql =`SELECT typetitle.id as typeId,typeName, typecontent.id,comName,imgUrl FROM typecontent LEFT JOIN typetitle ON (typecontent.typeId = typetitle.id)`;
+        let res = await myDb.query(sql)
+        data = JSON.parse(JSON.stringify(res))
+
+    }
+
+    //  修改二级分类商品数据，以及所属一级分类类别
+    if (go =='typeContentNameEdit') {
+
+        if (params.id) {
+
+            let sql =`SELECT typetitle.id as typeId,typeName, typecontent.id,comName,imgUrl FROM typecontent LEFT JOIN typetitle ON (typecontent.typeId = typetitle.id)  WHERE typecontent.id = ${params.id}`;
+
+            let res = await myDb.query(sql)
+            data = JSON.parse(JSON.stringify(res))[0]
+
+        }
+        let sql = `SELECT * FROM typetitle`;
+        let res = await myDb.query(sql);
+        typeTitleData = JSON.parse(JSON.stringify(res))
+        typeTitleData = typeTitleData.filter(item=>{
+                return  item.typeName != data.typeName       
+        })
+
+        typeTitleData.unshift({
+            id:data.typeId,
+            typeName:data.typeName
+        })
+                        
+    }
+
+    await ctx.render('admin',{ admin:ctx.session.admin, host,go,data,typeTitleData})
 })
 
 
@@ -99,24 +145,25 @@ router.post('/typeName', async (ctx)=>{
     //  通过id 修改 一级分类列表的标题数据
     if (data.go =='typeNameEdit') {
      
-    if (data.id) {
+        if (data.id) {
 
-        let sql = `UPDATE typetitle SET typeName="${data.title}" WHERE id = ${data.id}`
-        let res = await myDb.query(sql)
-        if(res.affectedRows>0) {
-            
-            text='修改成功'
+            let sql = `UPDATE typetitle SET typeName="${data.title}" WHERE id = ${data.id}`
+            let res = await myDb.query(sql)
+            if(res.affectedRows>0) {
+                
+                text='修改成功'
 
-        }else {
+            }else {
 
-            text='修改失败'
+                text='修改失败'
+            }
         }
-     }
     }
-
+    
     // 二级分类提交
 
     if(data.go =='typeContentAdd'){
+        
         let currentTimer = new Date().getTime()
         let sql =  `INSERT INTO typeContent (typeId,comName,imgUrl,date) VALUES (${data.typeId},"${data.title}","${data.url}","${currentTimer}")`;
         let res = await myDb.query(sql); 
@@ -130,6 +177,27 @@ router.post('/typeName', async (ctx)=>{
             text = '添加商品失败'
         }
     }
+
+
+    //  通过id 修改 二级分类商品名称的数据以及修改所有一级分类
+
+    if (data.go =='typeContentNameEdit') {
+        
+        if (data.id) {
+            // 通过商品id查询，修改所属一级分类id，商品标题，商品图片地址，
+            let sql = `UPDATE typecontent SET typeId=${data.typeId}, comName="${data.title}", imgUrl="${data.imgUrl}"  WHERE id = ${data.id}`
+            console.log(sql)
+            let res = await myDb.query(sql)
+            if(res.affectedRows>0) {
+                
+                text='修改成功'
+
+            }else {
+
+                text='修改失败'
+            }
+        }
+        }
 
     await ctx.render('typeName',{ admin:ctx.session.admin, host,text})
 })
