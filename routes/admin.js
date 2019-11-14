@@ -37,6 +37,8 @@ router.get('/',async  (ctx) => {
     let go = params.go ? params.go:'welcome'
     let data;
     let typeTitleData;
+    let pages=''; 
+    let page= params.page ?params.page :1;
     // 跳转一级分类数据列表 //二级分类新增获取一级分类内容
     if (go =='typeNameList' || go == 'typeContentAdd') {
         
@@ -79,11 +81,37 @@ router.get('/',async  (ctx) => {
             await myDb.query(sql)
         }
 
+        // 初始
 
-        let sql =`SELECT typetitle.id as typeId,typeName, typecontent.id,comName,imgUrl FROM typecontent LEFT JOIN typetitle ON (typecontent.typeId = typetitle.id)`;
+        let pageRecords = 5;
+
+        let start = (page-1)*pageRecords;
+
+        let sql =`SELECT typetitle.id as typeId,typeName, typecontent.id,comName,imgUrl FROM typecontent LEFT JOIN typetitle ON (typecontent.typeId = typetitle.id) LIMIT ${start},${pageRecords}`;
+
         let res = await myDb.query(sql)
         data = JSON.parse(JSON.stringify(res))
+    
+        // 分页
+    
+        let _sql = 'SELECT count(*) as total FROM typecontent';
+        let _res = await myDb.query(_sql);
+        let totalRecords = _res[0].total;
+    
+        // 总页数
+        let totalPages = Math.ceil(totalRecords/pageRecords);
+    
+        for(let i=1;i<= totalPages;i++) {
+    
+           if(i == page) {
 
+                 pages+= `  <a href="${host}/admin?go=typeContentList&page=${i}" style="color:red" > ${i}</a>  `
+
+           }else{
+                 pages+= ` <a href="${host}/admin?go=typeContentList&page=${i}">${i}</a>  `
+           }
+        }
+    
     }
 
     //  修改二级分类商品数据，以及所属一级分类类别
@@ -111,7 +139,10 @@ router.get('/',async  (ctx) => {
                         
     }
 
-    await ctx.render('admin',{ admin:ctx.session.admin, host,go,data,typeTitleData})
+   
+
+
+    await ctx.render('admin',{ admin:ctx.session.admin, host,go,data,typeTitleData,pages})
 })
 
 

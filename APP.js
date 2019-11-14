@@ -6,6 +6,9 @@ koaBody = require('koa-body')
 fs = require('fs')
 session = require('koa-session')
 sha1 = require('node-sha1')
+// 引入cors
+cors = require('./lib/cors')
+
 // 引入路径
 path = require('path')
 
@@ -18,7 +21,7 @@ myDb = require('./lib/db')
 admin = require('./routes/admin')
 type = require('./routes/type')
 shoppingCar = require('./routes/add-shopcar')
-
+productInfo = require('./routes/productInfo')
 
 // 全局路径
 global.rootPath = __dirname;
@@ -46,6 +49,9 @@ app.use(koaBody({
 
 // 配置静态资源
 app.use(static(path.join(__dirname, 'public')))
+
+// 配置 cors 跨域,必须放在静态资源下面
+app.use(cors)
 
 // 配置session
 
@@ -101,6 +107,9 @@ router.use('/type',type)
 
 router.use('/shoppingcar',shoppingCar)
 
+// 商品详情
+
+router.use('/product',productInfo)
 
 
 router.get('*', async (ctx) => {
