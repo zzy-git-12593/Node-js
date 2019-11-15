@@ -20,8 +20,33 @@ router.get('/recommend', async (ctx) => {
     ctx.body = res
 })
 
+// 搜索展示字段列表
+
+router.get('/search' , async (ctx)=>{
+
+    let params = ctx.query;
+
+    let searchWord = params.searchWord.trim();
+
+    let sql = `SELECT id,cmmdtyName FROM commdty WHERE cmmdtyName LIKE "%${searchWord}%"`;
+
+    let res = await myDb.query(sql);
+
+    if( res.length > 0 ) {
+
+        ctx.body = res
+
+    } else {
+
+        ctx.body = false
+    }
+})
+
+
+
+
 // 搜索完成列表
-router.get('/search', async (ctx) => {
+router.get('/searchList', async (ctx) => {
 
     let params = ctx.query;
 
