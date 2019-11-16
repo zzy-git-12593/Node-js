@@ -11,7 +11,7 @@ router.get('/', async (ctx) => {
 // 推荐商品列表
 
 router.get('/recommend', async (ctx) => {
-
+    
     let sql = 'SELECT commdty.id,cmmdtyName,imgUrl,price FROM commdty'
 
     let res = await myDb.query(sql);
@@ -83,8 +83,8 @@ router.get('/searchList', async (ctx) => {
 
 router.get('/productInfo', async (ctx) => {
     let params = ctx.query;
-    let commdtyId = params.commdityId;
-
+    let commdtyId = params.commdtyId;
+    console.log(commdtyId)
     // commdty
     let commdty = `SELECT * FROM commdty WHERE id=${commdtyId}`
     let commdtyRes = await myDb.query(commdty);

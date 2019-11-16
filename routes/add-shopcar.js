@@ -14,11 +14,13 @@ router.post('/addDo', async (ctx) => {
 
     // 获取数据，全是字符串
 
-    let data = ctx.request.body;
+    let data = ctx.request.body; 
     data = JSON.parse(JSON.stringify(data)).params
+    
+    let sql = `SELECT  shoppingcar.id,shoppingcar.uId,commdtyId,count FROM shoppingcar LEFT JOIN user ON (shoppingcar.uId=user.id) WHERE shoppingcar.uId=${data.uId}`;
 
-    let sql = `SELECT count,commdtyId FROM shoppingcar WHERE commdtyId=${data.id}`;
     let res = await myDb.query(sql);
+    console.log(res)
 
     if (res.length > 0) {
         res = JSON.parse(JSON.stringify(res))
@@ -63,7 +65,7 @@ router.post('/addDo', async (ctx) => {
                 }
         }
     } else {
-        let _sql2 = `INSERT INTO shoppingcar (commdtyId,comName,price,count,imgUrl,isBuyCheck,isDelCheck) VALUES (${data.id},"${data.commName}",${data.price},${data.count},"${data.imgUrl}",${data.isBuyCheck},${data.isDelCheck})`
+        let _sql2 = `INSERT INTO shoppingcar (commdtyId,uId,comName,price,count,imgUrl,isBuyCheck,isDelCheck) VALUES (${data.id},${data.uId},"${data.commName}",${data.price},${data.count},"${data.imgUrl}",${data.isBuyCheck},${data.isDelCheck})`
 
         let _res2 = await myDb.query(_sql2)
 
@@ -83,12 +85,16 @@ router.post('/addDo', async (ctx) => {
 // 购物车获取商品 
 
 router.get('/getCommdty', async (ctx) => {
-
-    let sql = `SELECT * FROM shoppingcar`;
-    let res = await myDb.query(sql);
-    res = JSON.parse(JSON.stringify(res))
-
-    ctx.body = res
+    let params = ctx.query;
+    let res= [];
+    if(params.id){
+        let sql = `SELECT * FROM shoppingcar WHERE uId=${params.id} `;
+         res = await myDb.query(sql);
+        ctx.body = res
+    } else {
+        ctx.body = res
+    }
+    
 })
 
 // 购物车数量减少

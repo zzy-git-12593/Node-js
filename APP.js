@@ -18,10 +18,12 @@ myDb = require('./lib/db')
 
 // 引入路由
 
-admin = require('./routes/admin')
-type = require('./routes/type')
-shoppingCar = require('./routes/add-shopcar')
-productInfo = require('./routes/productInfo')
+admin = require('./routes/admin') //后台用户名
+type = require('./routes/type') // 分类页面
+shoppingCar = require('./routes/add-shopcar') //购物车
+productInfo = require('./routes/productInfo') // 商品详情
+user = require('./routes/user-sign') //用户名注册与登录
+token = require('./routes/token')//token 验证
 
 // 全局路径
 global.rootPath = __dirname;
@@ -102,15 +104,21 @@ router.use('/admin',admin)
 
 router.use('/type',type)
 
-
-// 购物车商品
-
-router.use('/shoppingcar',shoppingCar)
-
 // 商品详情
 
 router.use('/product',productInfo)
 
+// 用户注册 登录
+
+router.use('/user',user)
+
+// token 验证
+
+router.use('/token',token)
+
+// 购物车商品
+
+router.use('/shoppingcar',shoppingCar)
 
 router.get('*', async (ctx) => {
     ctx.body = '404页面不存在'
